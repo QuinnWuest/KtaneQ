@@ -14,11 +14,9 @@ MonoBehaviour:
   id: QModule
   title: Q
   author: Quinn Wuest
-  description: 'Q (pufferfish) Q
-
-    i hate single letter mods
-
-    no manual bc im lazy yall can figure it out'
+  description: "Q. Pufferfish. Q.\r\nI hate single letter modules.\r\n\r\nMade by
+    Quinn Wuest\r\n\r\n[url=https://ktane.timwi.de/HTML/Q.html]Manual HTML[/url]\r\n[url=https://ktane.timwi.de/PDF/Q.pdf]Manual
+    PDF[/url]"
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 341fa8a1ce045d745bfbd8fe497a7d57, type: 3}
