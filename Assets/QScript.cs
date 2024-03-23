@@ -109,4 +109,63 @@ public class QScript : MonoBehaviour
             Module.HandlePass();
         }
     }
+
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} press Q [Presses T Q] | !{0} type ABC [Types letters]";
+    #pragma warning restore 414
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        if (command.EqualsIgnoreCase("press q"))
+        {
+            if (_isPopped)
+            {
+                yield return "sendtochaterror T Q has already been pressed!";
+                yield break;
+            }
+            yield return null;
+            QSel.OnInteract();
+            yield break;
+        }
+        if (command.ToLowerInvariant().StartsWith("type "))
+        {
+            string chars = command.Substring(5);
+            for (int i = 0; i < chars.Length; i++)
+            {
+                if (!"ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(chars.ToUpperInvariant()[i]))
+                {
+                    yield return "sendtochaterror!f '" + chars[i] + "' is not a letter!";
+                    yield break;
+                }
+            }
+            if (!_isPopped)
+            {
+                yield return "sendtochaterror T Q must B pressed first!";
+                yield break;
+            }
+            yield return null;
+            for (int i = 0; i < chars.Length; i++)
+            {
+                ProcessKey((KeyCode)("ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(chars.ToUpperInvariant()[i]) + 97));
+                yield return new WaitForSeconds(.1f);
+            }
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        _isSelected = true;
+        if (!_isPopped)
+        {
+            QSel.OnInteract();
+            yield return new WaitForSeconds(.1f);
+        }
+        for (int i = 0; i < _solution.Length; i++)
+        {
+            ProcessKey((KeyCode)("ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(_solution[i]) + 97));
+            yield return new WaitForSeconds(.1f);
+        }
+        _isSelected = false;
+    }
 }
